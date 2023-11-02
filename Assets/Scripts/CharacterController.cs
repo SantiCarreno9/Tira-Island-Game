@@ -32,14 +32,9 @@ public class CharacterController : MonoBehaviour
     //Animator parameters
     private int _speedAnimParameter = Animator.StringToHash("Speed");
     private int _jumpAnimParameter = Animator.StringToHash("Jump");
-    private int _attackAnimParameter = Animator.StringToHash("Attack");
-    private int _damageAnimParameter = Animator.StringToHash("Damage");
-
-
-    void Start()
-    {
-
-    }
+    private int _isGroundedAnimParameter = Animator.StringToHash("IsGrounded");
+    private int _attackAnimParameter = Animator.StringToHash("IsShooting");
+    //private int _damageAnimParameter = Animator.StringToHash("Damage");
 
     void Update()
     {
@@ -89,15 +84,11 @@ public class CharacterController : MonoBehaviour
         float normalizedSpeed = _movementSpeed / _walkingSpeed;
         _animator.SetFloat(_speedAnimParameter, Mathf.Abs(normalizedSpeed * _movementDirection));
 
-        if (_jump) _animator.SetTrigger(_jumpAnimParameter);
-        if (_isJumping && IsGrounded()) ResumeAnimation();
+        if (_jump) _animator.SetTrigger(_jumpAnimParameter);        
 
         _animator.SetBool(_attackAnimParameter, _attack);
-    }
-
-    private void ResumeAnimation() => _animator.speed = 1;
-
-    public void StopAnimation() => _animator.speed = 0;
+        _animator.SetBool(_isGroundedAnimParameter, IsGrounded());
+    }    
 
     #endregion
 
@@ -110,7 +101,7 @@ public class CharacterController : MonoBehaviour
     }
 
     private void OnCollisionExit2D(Collision2D collision)
-    {        
+    {
 
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7779616063981903489}
   - component: {fileID: 1398219486071847782}
-  - component: {fileID: 1713147237267918748}
+  - component: {fileID: 7889979670042301217}
   m_Layer: 0
   m_Name: WoodLogs
   m_TagString: Untagged
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1713147237267918748
-BoxCollider2D:
+--- !u!60 &7889979670042301217
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,7 +117,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.765625}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -127,6 +127,12 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.8125, y: 1.53125}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.92711926, y: 1.4896193}
+      - {x: -1.31605, y: 0.7326808}
+      - {x: -1.4548192, y: 0}
+      - {x: 1.40625, y: 0}
+      - {x: 1.0870812, y: 0.9408884}
+      - {x: 0.72230005, y: 1.4549271}
+  m_UseDelaunayMesh: 0
