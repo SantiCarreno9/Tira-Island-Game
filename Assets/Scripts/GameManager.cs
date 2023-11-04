@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,8 +9,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //_screenController
+        _screenController.ShowScreen(GameScreen.Start);
+        _screenController.HideScreen(3);
     }
 
-    //public void 
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public IEnumerator FinishAndRestartGame()
+    {
+        yield return new WaitForSeconds(1);
+        _screenController.ShowScreen(GameScreen.Death, 1);
+        yield return new WaitForSeconds(3);
+        RestartGame();
+    }
 }

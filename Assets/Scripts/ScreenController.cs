@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public enum Screen
+public enum GameScreen
 {
     Start,
     Finish,
@@ -20,13 +20,14 @@ public class ScreenController : MonoBehaviour
     [SerializeField]
     private GameObject _deathScreen = default;
 
-    public void ShowScreen(Screen screen, float fadeInDuration = 0.5f)
+    public void ShowScreen(GameScreen screen, float fadeInDuration = 0)
     {
-        _startLevelScreen.SetActive(screen == Screen.Start);
-        _finishLevelScreen.SetActive(screen == Screen.Finish);
-        _deathScreen.SetActive(screen == Screen.Death);
+        _startLevelScreen.SetActive(screen == GameScreen.Start);
+        _finishLevelScreen.SetActive(screen == GameScreen.Finish);
+        _deathScreen.SetActive(screen == GameScreen.Death);
 
-        _screenCanvasGroup.gameObject.SetActive(true);          
+        _screenCanvasGroup.gameObject.SetActive(true);
+        _screenCanvasGroup.DOFade(1, fadeInDuration);
     }
 
     public void HideScreen(float duration = 0.5f)
@@ -36,11 +37,11 @@ public class ScreenController : MonoBehaviour
             _screenCanvasGroup.gameObject.SetActive(false);
         };
     }
-    
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
-            ShowScreen(Screen.Start);
+            ShowScreen(GameScreen.Start);
 
         if (Input.GetKeyDown(KeyCode.T))
             HideScreen();

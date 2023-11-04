@@ -22,7 +22,10 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float _jumpForce = 1f;
 
-    private bool _isJumping = false;
+    [Space]
+    [Header("References")]
+    [SerializeField]
+    private GameManager _gameManager;
 
     private float _movementDirection = 0f;
     private float _movementSpeed = 0f;
@@ -35,6 +38,8 @@ public class CharacterController : MonoBehaviour
     private int _isGroundedAnimParameter = Animator.StringToHash("IsGrounded");
     private int _attackAnimParameter = Animator.StringToHash("IsShooting");
     //private int _damageAnimParameter = Animator.StringToHash("Damage");
+
+
 
     void Update()
     {
@@ -68,7 +73,6 @@ public class CharacterController : MonoBehaviour
     private void Jump()
     {
         _rigidbody.velocity = Vector2.up * _jumpForce;
-        _isJumping = true;
     }
 
     private bool IsGrounded()
@@ -91,17 +95,9 @@ public class CharacterController : MonoBehaviour
     }    
 
     #endregion
-
-
-
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    
+    public void Damage(int damagePercent)
     {
-
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-
+        StartCoroutine(_gameManager.FinishAndRestartGame());
     }
 }
