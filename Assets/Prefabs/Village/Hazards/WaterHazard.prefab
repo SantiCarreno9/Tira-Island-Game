@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c64cd0f66eea1164f90b9d04fe22e259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damagePercentage: 100
-  _gameManager: {fileID: 0}
+  _damagePoints: 10
+  _oneShot: 1
 --- !u!61 &209940400697662161
 BoxCollider2D:
   m_ObjectHideFlags: 0
