@@ -122,6 +122,7 @@ MonoBehaviour:
   _walkingSpeed: 3
   _runningSpeed: 5
   _jumpForce: 6
+  _attackDelay: 0.5
 --- !u!114 &3992011201553144514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,11 +153,14 @@ MonoBehaviour:
         m_CallState: 2
   OnHealthDecreased:
     m_PersistentCalls:
+      m_Calls: []
+  OnHitReceived:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3373961008358265827}
         m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: PlayTakeHitAnimation
-        m_Mode: 1
+        m_MethodName: TakeHit
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

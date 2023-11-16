@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
 
     public UnityEvent OnHealthIncreased = default;
     public UnityEvent OnHealthDecreased = default;
+    public UnityEvent<Vector2> OnHitReceived = default;
     public UnityEvent<float> OnHealthPercentageChanged = default;
     public UnityEvent OnZeroHealth = default;
 
@@ -44,5 +45,12 @@ public class Health : MonoBehaviour
         if (_currentHealthPoints == 0)
             OnZeroHealth?.Invoke();
 
+    }
+
+    public void SetHitDirection(Vector2 direction)
+    {
+        if (direction.y > 0)
+            direction = transform.right * -1;
+        OnHitReceived?.Invoke(direction);
     }
 }

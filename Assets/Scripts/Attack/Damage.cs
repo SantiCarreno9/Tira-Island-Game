@@ -7,12 +7,7 @@ public class Damage : MonoBehaviour
     [SerializeField]
     private bool _oneShot = false;
     [SerializeField]
-    private bool _damageOnTrigger = true;
-
-    private void OnDisable()
-    {
-        
-    }
+    private bool _damageOnTrigger = true;    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,12 +16,9 @@ public class Damage : MonoBehaviour
 
         if (!_damageOnTrigger)
             return;
-        Debug.Log(gameObject.name + " collided with " + collision.gameObject.name);
+
         if (collision.gameObject.TryGetComponent(out Health health))
-        {
-            if (_oneShot) health.DecreaseHealthBy(health.CurrentHealthPoints);
-            else health.DecreaseHealthBy(_damagePoints);
-        }
+            DamageOther(health);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -35,12 +27,16 @@ public class Damage : MonoBehaviour
             return;
         if (_damageOnTrigger)
             return;
-        Debug.Log(gameObject.name + " collided with " + collision.gameObject.name);
+
         if (collision.gameObject.TryGetComponent(out Health health))
-        {
-            if (_oneShot) health.DecreaseHealthBy(health.CurrentHealthPoints);
-            else health.DecreaseHealthBy(_damagePoints);
-        }
+            DamageOther(health);
+    }
+
+    private void DamageOther(Health health)
+    {
+        if (_oneShot) health.DecreaseHealthBy(health.CurrentHealthPoints);
+        else health.DecreaseHealthBy(_damagePoints);
+        health.SetHitDirection(transform.right);
     }
 
 }

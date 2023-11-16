@@ -8,6 +8,9 @@ public class RangedEnemy : Enemy
         if (isDead)
             return;
 
+        if (hitTaken)
+            return;
+
         if (IsInDetectionRange)
         {
             if (!hasAttacked)

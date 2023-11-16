@@ -44,8 +44,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
-      propertyPath: OnHealthDecreased.m_PersistentCalls.m_Calls.Array.size
+      propertyPath: OnHitReceived.m_PersistentCalls.m_Calls.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
+      propertyPath: OnHealthDecreased.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
       propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -53,6 +57,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
       propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 183754713144972875}
+    - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
+      propertyPath: OnHitReceived.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 183754713144972875}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
@@ -64,6 +72,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
+      propertyPath: OnHitReceived.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
       propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Kill
       objectReference: {fileID: 0}
@@ -71,6 +83,10 @@ PrefabInstance:
       propertyPath: OnHealthDecreased.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 183754713144972875}
+    - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
+      propertyPath: OnHitReceived.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TakeHit
+      objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
       propertyPath: OnHealthDecreased.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -84,11 +100,19 @@ PrefabInstance:
       value: Enemy, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
+      propertyPath: OnHitReceived.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Enemy, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
       propertyPath: OnHealthDecreased.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Enemy, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
       propertyPath: OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
+      propertyPath: OnHitReceived.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 648532259231585251, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
@@ -386,7 +410,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4319314812749883032}
   _collider: {fileID: 8111035487935968933}
-  _attackRate: 5
+  rigidbody: {fileID: 8257199860101779482}
+  _attackRate: 3
+  _takeHitForce: 2
 --- !u!114 &5033852887788407731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,5 +430,10 @@ MonoBehaviour:
 --- !u!70 &8111035487935968933 stripped
 CapsuleCollider2D:
   m_CorrespondingSourceObject: {fileID: 8315052265921726613, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
+  m_PrefabInstance: {fileID: 285081608054177328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &8257199860101779482 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 8170558525363547690, guid: 1d74ca9d24d724d4d9cf857ab4ee61d0, type: 3}
   m_PrefabInstance: {fileID: 285081608054177328}
   m_PrefabAsset: {fileID: 0}

@@ -19,11 +19,18 @@ public class CharacterController : MonoBehaviour
     private float _runningSpeed = 5f;
     [SerializeField]
     private float _jumpForce = 1f;
+    [SerializeField]
+    private float _attackRate = 0.3f;
 
     private float _movementDirection = 0f;
     private float _movementSpeed = 0f;
     private bool _jump = false;
+    private bool _canMove = true;
+
+    //Attack logic
     private bool _attack = false;
+    private bool _canAttack = true;
+    private float _currentAttackDelay = 0;
 
     //Animator parameters
     private int _speedAnimParameter = Animator.StringToHash("Speed");
@@ -33,9 +40,15 @@ public class CharacterController : MonoBehaviour
     private int _takeHitAnimParameter = Animator.StringToHash("TakeHit");
     private int _deathAnimParameter = Animator.StringToHash("Died");
 
+    //Hit Logic
+    private bool _hitTaken = false;
+    private float _hitDuration = 0.5f;
+    private float _hitTime = 0;
+    private float _takeHitForce = 0.5f;
+    private Vector2 _takeHitDirection = Vector2.zero;
 
     void Update()
-    {
+    {        
         GetUserInput();
         PlayAnimations();
     }
@@ -45,8 +58,33 @@ public class CharacterController : MonoBehaviour
         MoveCharacter();
     }
 
+    public void ResumePlayerMovement()
+    {
+        _canMove = true;
+    }
+
+    public void StopPlayerMovement()
+    {
+        _canMove = false;
+    }
+
     private void GetUserInput()
     {
+        if (!_canMove)
+            return;
+
+        //Hit Logic
+        if (_hitTaken)
+        {
+            _hitTime += Time.deltaTime;
+            if (_hitTime >= _hitDuration)
+            {
+                _hitTaken = false;
+                _hitTime = 0;
+            }
+            return;
+        }
+
         //Movement
         _movementDirection = Input.GetAxis("Horizontal");
         if (Input.GetButton("Run"))
@@ -55,12 +93,29 @@ public class CharacterController : MonoBehaviour
 
         _jump = IsGrounded() && Input.GetButtonDown("Jump");
 
-        //Abilities
-        _attack = Input.GetButtonDown("Fire");
+        //Abilities                
+        _attack = _canAttack && Input.GetButtonDown("Fire");
+        if (_attack || !_canAttack)
+        {
+            _canAttack = false;
+            _currentAttackDelay += Time.deltaTime;
+            if (_currentAttackDelay >= _attackRate)
+            {
+                _currentAttackDelay = 0;
+                _canAttack = true;
+            }
+        }
     }
 
     private void MoveCharacter()
     {
+        //Hit Logic
+        if (_hitTaken)
+        {
+            _rigidbody.velocity = _takeHitDirection * _takeHitForce;
+            return;
+        }
+
         _rigidbody.velocity = new Vector3(_movementSpeed * _movementDirection, _rigidbody.velocity.y);
         if (_movementDirection != 0)
         {
@@ -94,10 +149,11 @@ public class CharacterController : MonoBehaviour
 
     #endregion    
 
-    public void PlayTakeHitAnimation()
+    public void TakeHit(Vector2 direction)
     {
         Debug.Log("Damage Received");
-        _rigidbody.velocity = transform.right * -1 * 1000;
+        _takeHitDirection = direction;
+        _hitTaken = true;
         //_animator.SetTrigger(_damageAnimParameter);
     }
 

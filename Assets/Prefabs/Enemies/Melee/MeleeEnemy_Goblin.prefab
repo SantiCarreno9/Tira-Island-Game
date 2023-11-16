@@ -116,14 +116,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeEnemy_Goblin
       objectReference: {fileID: 0}
-    - target: {fileID: 6758413564823631924, guid: c96a41b10bb80db4fa2180074a956938, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 6758413564823631924, guid: c96a41b10bb80db4fa2180074a956938, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.35
-      objectReference: {fileID: 0}
     - target: {fileID: 7708178251078845526, guid: c96a41b10bb80db4fa2180074a956938, type: 3}
       propertyPath: m_Size.x
       value: 1.8923941
