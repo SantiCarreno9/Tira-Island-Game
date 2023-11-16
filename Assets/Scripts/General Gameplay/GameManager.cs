@@ -1,45 +1,31 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{
-    public static GameManager Instance;
+{    
     [SerializeField]
     private ScreenController _screenController = default;
+    [SerializeField]
     private CharacterController _characterController = default;
 
     public CharacterController Character => _characterController;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-            Destroy(this.gameObject);
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-    }
+    public Action OnPlayerKilled = default;    
 
     private void OnEnable()
     {
-        if (_characterController == null)
-            _characterController = FindObjectOfType<CharacterController>();
-
-        _characterController.GetComponent<Health>().OnZeroHealth.AddListener(OnPlayerKilled);
+        _characterController.GetComponent<Health>().OnZeroHealth.AddListener(RestartLevel);
         _screenController.ShowScreen(GameScreen.Start);
         _screenController.HideScreen(3);
     }
 
     private void OnDisable()
     {
-        if (_characterController == null)
-            _characterController = FindObjectOfType<CharacterController>();
-        _characterController.GetComponent<Health>().OnZeroHealth.RemoveListener(OnPlayerKilled);
+        _characterController.GetComponent<Health>().OnZeroHealth.RemoveListener(RestartLevel);
     }
 
-    private void OnPlayerKilled()
+    private void RestartLevel()
     {
         StartCoroutine(FinishAndRestartGame());
     }
@@ -57,6 +43,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator FinishAndRestartGame()
     {
+        OnPlayerKilled?.Invoke();
         yield return new WaitForSeconds(1);
         _screenController.ShowScreen(GameScreen.Death, 1);
         yield return new WaitForSeconds(3);

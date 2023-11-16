@@ -29,7 +29,13 @@ public class MeleeEnemy : Enemy
         animator.SetBool(_walkAnimParameter, _walk);
 
         if (IsInAttackRange)
-            StartAttacking();
+        {
+            if (!hasAttacked)
+            {
+                Attack();
+                hasAttacked = true;
+            }
+        }
         else StopAttacking();
     }
 
@@ -39,8 +45,21 @@ public class MeleeEnemy : Enemy
         {
             int direction = (mainCharacter.transform.position.x < transform.position.x) ? -1 : 1;
             _rigidbody.velocity = Vector2.right * direction * _movementSpeed;
+            Debug.Log(direction);
             return;
         }
+    }
+
+    public override void TakeHit()
+    {
+        base.TakeHit();
+        _rigidbody.AddForce(transform.right * -1, ForceMode2D.Impulse);
+    }
+
+    public override void Kill()
+    {
+        _rigidbody.isKinematic = true;
+        base.Kill();
     }
 
 }

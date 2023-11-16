@@ -34,15 +34,15 @@ public class Health : MonoBehaviour
     public void DecreaseHealthBy(int amount)
     {
         _currentHealthPoints -= amount;
-        if (_currentHealthPoints <= 0)
-        {
-            OnZeroHealth?.Invoke();
-            return;
-        }
+        if (_currentHealthPoints < 0)
+            _currentHealthPoints = 0;
 
         float percentage = ((float)_currentHealthPoints / _initialHealthPoints);
         OnHealthDecreased?.Invoke();
         OnHealthPercentageChanged?.Invoke(percentage);
-        Debug.Log(gameObject.name + " health percentage " + percentage);
+
+        if (_currentHealthPoints == 0)
+            OnZeroHealth?.Invoke();
+
     }
 }

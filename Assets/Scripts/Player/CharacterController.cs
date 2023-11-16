@@ -1,15 +1,14 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class CharacterController : MonoBehaviour
 {
-    [Header("Components")]    
+    [Header("Components")]
     [SerializeField]
     private Animator _animator;
     [SerializeField]
     private Rigidbody2D _rigidbody;
     [SerializeField]
-    private BoxCollider2D _boxCollider;
+    private CapsuleCollider2D _collider;
 
     [Header("Movement Variables")]
     [SerializeField]
@@ -21,10 +20,6 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float _jumpForce = 1f;
 
-    [Space]
-    [Header("Events")]
-    public UnityEvent OnShoot = default;
-
     private float _movementDirection = 0f;
     private float _movementSpeed = 0f;
     private bool _jump = false;
@@ -34,7 +29,7 @@ public class CharacterController : MonoBehaviour
     private int _speedAnimParameter = Animator.StringToHash("Speed");
     private int _jumpAnimParameter = Animator.StringToHash("Jump");
     private int _isGroundedAnimParameter = Animator.StringToHash("IsGrounded");
-    private int _attackAnimParameter = Animator.StringToHash("IsShooting");
+    private int _attackAnimParameter = Animator.StringToHash("Shoot");
     private int _takeHitAnimParameter = Animator.StringToHash("TakeHit");
     private int _deathAnimParameter = Animator.StringToHash("Died");
 
@@ -62,7 +57,6 @@ public class CharacterController : MonoBehaviour
 
         //Abilities
         _attack = Input.GetButtonDown("Fire");
-        if (_attack) OnShoot?.Invoke();
     }
 
     private void MoveCharacter()
@@ -82,7 +76,7 @@ public class CharacterController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(_boxCollider.bounds.center, _boxCollider.bounds.size, 0, Vector2.down, 0.2f, _plaftormLayerMask);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(_collider.bounds.center, _collider.bounds.size, 0, Vector2.down, 0.2f, _plaftormLayerMask);
         return raycastHit.collider != null;
     }
 
@@ -94,8 +88,7 @@ public class CharacterController : MonoBehaviour
         _animator.SetFloat(_speedAnimParameter, Mathf.Abs(normalizedSpeed * _movementDirection));
 
         if (_jump) _animator.SetTrigger(_jumpAnimParameter);
-
-        _animator.SetBool(_attackAnimParameter, _attack);
+        if (_attack) _animator.SetTrigger(_attackAnimParameter);
         _animator.SetBool(_isGroundedAnimParameter, IsGrounded());
     }
 
@@ -104,6 +97,7 @@ public class CharacterController : MonoBehaviour
     public void PlayTakeHitAnimation()
     {
         Debug.Log("Damage Received");
+        _rigidbody.velocity = transform.right * -1 * 1000;
         //_animator.SetTrigger(_damageAnimParameter);
     }
 

@@ -1,25 +1,21 @@
-using UnityEngine;
-using UnityEngine.Events;
 
 public class RangedEnemy : Enemy
 {
-    [SerializeField]
-    private float _shootRate = 5;
-
-    public UnityEvent OnShoot = default;
-
     protected override void Update()
     {
         base.Update();
+
+        if (isDead)
+            return;
+
         if (IsInDetectionRange)
         {
-            StartAttacking();
+            if (!hasAttacked)
+            {
+                Attack();
+                hasAttacked = true;
+            }
         }
-    }
-
-    public override void StartAttacking()
-    {
-        base.StartAttacking();
-        OnShoot?.Invoke();
+        else StopAttacking();
     }
 }
