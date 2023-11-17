@@ -7,8 +7,9 @@ public class Follower : MonoBehaviour
     [SerializeField]
     private Vector3 _offset = Vector3.zero;
 
+
     private void Update()
-    {
-        transform.position = (_target.position.x * Vector3.right) + _offset;
+    { 
+        transform.position = new Vector3(_target.position.x, _target.position.y, 0) + _offset;
     }
 }

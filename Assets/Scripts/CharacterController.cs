@@ -10,7 +10,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _rigidbody;
     [SerializeField]
-    private BoxCollider2D _boxCollider;
+    private CapsuleCollider2D _boxCollider;
 
     [Header("Movement Variables")]
     [SerializeField]
