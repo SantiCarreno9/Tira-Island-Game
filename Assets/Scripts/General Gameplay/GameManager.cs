@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_characterController != null)
-            _characterController.GetComponent<Health>().OnZeroHealth.AddListener(ShowDeathScreen);
         _screenController.ShowScreen(GameScreen.Start);
         _screenController.HideScreen(3);
     }
@@ -29,9 +27,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void OnDisable()
-    {
-        if (_characterController != null)
-            _characterController.GetComponent<Health>().OnZeroHealth.RemoveListener(ShowDeathScreen);
+    {     
     }
 
     public void SaveUserInfo()
@@ -40,7 +36,7 @@ public class GameManager : MonoBehaviour
         OnCheckpointReached?.Invoke(position);
     }
 
-    private void ShowDeathScreen()
+    public void ShowDeathScreen()
     {
         OnPlayerKilled?.Invoke();
     }

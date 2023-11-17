@@ -26,6 +26,7 @@ public class CharacterController : MonoBehaviour
     private float _movementSpeed = 0f;
     private bool _jump = false;
     private bool _canMove = true;
+    private bool _playAnimations = true;
 
     //Attack logic
     private bool _attack = false;
@@ -38,7 +39,8 @@ public class CharacterController : MonoBehaviour
     private int _isGroundedAnimParameter = Animator.StringToHash("IsGrounded");
     private int _attackAnimParameter = Animator.StringToHash("Shoot");
     private int _takeHitAnimParameter = Animator.StringToHash("TakeHit");
-    private int _deathAnimParameter = Animator.StringToHash("Died");
+    private int _deathAnimParameter = Animator.StringToHash("Die");
+    private int _hasDiedAnimParameter = Animator.StringToHash("HasDied");
 
     //Hit Logic
     private bool _hitTaken = false;
@@ -48,7 +50,7 @@ public class CharacterController : MonoBehaviour
     private Vector2 _takeHitDirection = Vector2.zero;
 
     void Update()
-    {        
+    {
         GetUserInput();
         PlayAnimations();
     }
@@ -68,7 +70,7 @@ public class CharacterController : MonoBehaviour
         _canMove = false;
         _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
         _movementDirection = 0;
-    }    
+    }
 
     private void GetUserInput()
     {
@@ -143,6 +145,9 @@ public class CharacterController : MonoBehaviour
 
     private void PlayAnimations()
     {
+        if (!_playAnimations)
+            return;
+
         float normalizedSpeed = _movementSpeed / _walkingSpeed;
         _animator.SetFloat(_speedAnimParameter, Mathf.Abs(normalizedSpeed * _movementDirection));
 
@@ -155,16 +160,23 @@ public class CharacterController : MonoBehaviour
 
     public void TakeHit(Vector2 direction)
     {
-        Debug.Log("Damage Received");
+        if (!_playAnimations)
+            return;
+
         _takeHitDirection = direction;
         _hitTaken = true;
-        //_animator.SetTrigger(_damageAnimParameter);
+        _animator.SetTrigger(_takeHitAnimParameter);
     }
 
     public void PlayDeadAnimation()
     {
-        Debug.Log("You are dead");
-        //_animator.SetTrigger(_deathAnimParameter);        
+        _animator.SetBool(_hasDiedAnimParameter, true);
+        _rigidbody.isKinematic = true;
+        _collider.enabled = false;
+        _rigidbody.velocity = Vector2.zero;
+        StopPlayerMovement();
+        _playAnimations = false;
+        _animator.SetTrigger(_deathAnimParameter);
     }
 
     public void PlayIncreaseHealthAnimation()

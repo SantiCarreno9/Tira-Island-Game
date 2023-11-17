@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Art/Characters/Enemies.meta
 guid: 5bf8da6fb70d3034ba4e1893031726c8
+========
+guid: aac88aa8fb1a76147b0a370561b312ff
+>>>>>>>> Jorge:Assets/Art/Characters/princess.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

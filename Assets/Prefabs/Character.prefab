@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3992011201553144514}
   - component: {fileID: 6367553769872518160}
   - component: {fileID: 4365224611266808175}
+  - component: {fileID: 5785319085983439678}
   m_Layer: 7
   m_Name: Character
   m_TagString: Player
@@ -122,7 +123,7 @@ MonoBehaviour:
   _walkingSpeed: 3
   _runningSpeed: 5
   _jumpForce: 6
-  _attackDelay: 0.5
+  _attackRate: 0.3
 --- !u!114 &3992011201553144514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +218,7 @@ MonoBehaviour:
   _shotgun: {fileID: 1802001900461458062, guid: 30ca1ad3ba068f948ad468ee56280621, type: 3}
   _rocket: {fileID: 1802001900461458062, guid: e5fd7a99add37dd48bae318a738395d2, type: 3}
   _grenade: {fileID: 1802001900461458062, guid: febb99ddf98df2a4aa99918bbdea3f72, type: 3}
-  _currentAmmo: 2
+  _currentAmmo: 0
   OnAmmoChanged:
     m_PersistentCalls:
       m_Calls:
@@ -248,6 +249,102 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!82 &5785319085983439678
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2470222274374868711}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3669762496347530285
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +388,7 @@ GameObject:
   - component: {fileID: 7965204116115056318}
   - component: {fileID: 1480438742144404126}
   - component: {fileID: 521835735081273625}
+  - component: {fileID: 7321200498295092087}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -446,3 +544,19 @@ MonoBehaviour:
   OnDied:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7321200498295092087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7265234224141940147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee29a67a47c5eba41b3126555a1e3b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 5785319085983439678}
+  stepSound: {fileID: 8300000, guid: 57a15621565e1b343a73cafff886182d, type: 3}
+  jumpSound: {fileID: 8300000, guid: ee5a73c923af76848a7afb544f8b06d2, type: 3}
+  landSound: {fileID: 8300000, guid: f6b21da7d257f3345badd7de2e13fe29, type: 3}

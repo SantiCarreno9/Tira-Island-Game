@@ -23,17 +23,17 @@ public class WeaponsManager : MonoBehaviour
     [SerializeField]
     private Projectile _grenade = default;
     [SerializeField]
-    private Ammo _currentAmmo = Ammo.Shotgun;    
+    private Ammo _currentAmmo = Ammo.Shotgun;
 
     [Space]
     public UnityEvent<Ammo> OnAmmoChanged = default;
     public UnityEvent<int> OnAmmoCountChanged = default;
 
-    private List<Projectile> _shootgunPool= new List<Projectile>();
-    private List<Projectile> _rocketsPool= new List<Projectile>();
-    private List<Projectile> _grenadePool= new List<Projectile>();
+    private List<Projectile> _shootgunPool = new List<Projectile>();
+    private List<Projectile> _rocketsPool = new List<Projectile>();
+    private List<Projectile> _grenadePool = new List<Projectile>();
 
-    private int _amount = -1;
+    private int _amount = 0;
 
     private void Start()
     {
@@ -42,24 +42,29 @@ public class WeaponsManager : MonoBehaviour
 
     public void SetAmmo(Ammo ammo)
     {
-        _currentAmmo = ammo;
+        int amount = 0;
         switch (ammo)
         {
             case Ammo.Shotgun:
                 _shootingController.SetProjectile(_shotgun);
-                _amount = -1;
+                amount = -1;
                 break;
             case Ammo.Rocket:
                 _shootingController.SetProjectile(_rocket);
-                _amount = 10;
+                amount = 10;
                 break;
             case Ammo.Grenade:
                 _shootingController.SetProjectile(_grenade);
-                _amount = 10;
+                amount = 10;
                 break;
             default:
                 break;
         }
+        if (_currentAmmo == ammo)
+            _amount += amount;
+        else _amount = amount;
+
+        _currentAmmo = ammo;
         OnAmmoChanged?.Invoke(_currentAmmo);
         OnAmmoCountChanged?.Invoke(_amount);
     }
