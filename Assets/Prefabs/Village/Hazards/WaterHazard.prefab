@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4236245757108046268}
   - component: {fileID: 5610062624482978083}
   - component: {fileID: 209940400697662161}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WaterHazard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damagePoints: 10
   _oneShot: 1
+  _damageOnTrigger: 1
 --- !u!61 &209940400697662161
 BoxCollider2D:
   m_ObjectHideFlags: 0

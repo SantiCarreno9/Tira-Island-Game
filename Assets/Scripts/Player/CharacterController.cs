@@ -66,7 +66,9 @@ public class CharacterController : MonoBehaviour
     public void StopPlayerMovement()
     {
         _canMove = false;
-    }
+        _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
+        _movementDirection = 0;
+    }    
 
     private void GetUserInput()
     {
@@ -109,6 +111,8 @@ public class CharacterController : MonoBehaviour
 
     private void MoveCharacter()
     {
+        if (!_canMove)
+            return;
         //Hit Logic
         if (_hitTaken)
         {
@@ -116,7 +120,7 @@ public class CharacterController : MonoBehaviour
             return;
         }
 
-        _rigidbody.velocity = new Vector3(_movementSpeed * _movementDirection, _rigidbody.velocity.y);
+        _rigidbody.velocity = new Vector2(_movementSpeed * _movementDirection, _rigidbody.velocity.y);
         if (_movementDirection != 0)
         {
             int yRotation = (_movementDirection < 0) ? 180 : 0;

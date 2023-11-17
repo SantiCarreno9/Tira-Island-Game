@@ -7,8 +7,11 @@ public class Follower : MonoBehaviour
     [SerializeField]
     private Vector3 _offset = Vector3.zero;
 
+    public bool Follow { get; set; } = true;
+
     private void Update()
     {
-        transform.position = (_target.position.x * Vector3.right) + _offset;
+        if (Follow)
+            transform.position = _target.position + _offset;
     }
 }

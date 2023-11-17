@@ -4,28 +4,48 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{    
+{
     [SerializeField]
     private ScreenController _screenController = default;
     [SerializeField]
     private CharacterController _characterController = default;
 
-    public CharacterController Character => _characterController;
-    public Action OnPlayerKilled = default;    
+    public Action OnPlayerKilled = default;
+    public Action<Vector2> OnCheckpointReached = default;
+
+    private bool _isPlayerStopped = false;
 
     private void OnEnable()
     {
-        _characterController.GetComponent<Health>().OnZeroHealth.AddListener(RestartLevel);
+        if (_characterController != null)
+            _characterController.GetComponent<Health>().OnZeroHealth.AddListener(ShowDeathScreen);
         _screenController.ShowScreen(GameScreen.Start);
         _screenController.HideScreen(3);
     }
 
-    private void OnDisable()
+    public void TakeCharacterTo(Vector2 position)
     {
-        _characterController.GetComponent<Health>().OnZeroHealth.RemoveListener(RestartLevel);
+        _characterController.transform.position = position;
     }
 
-    private void RestartLevel()
+    private void OnDisable()
+    {
+        if (_characterController != null)
+            _characterController.GetComponent<Health>().OnZeroHealth.RemoveListener(ShowDeathScreen);
+    }
+
+    public void SaveUserInfo()
+    {
+        Vector2 position = _characterController.transform.position;
+        OnCheckpointReached?.Invoke(position);
+    }
+
+    private void ShowDeathScreen()
+    {
+        OnPlayerKilled?.Invoke();
+    }
+
+    public void RestartLevel()
     {
         StartCoroutine(FinishAndRestartGame());
     }
@@ -33,12 +53,11 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
     }
 
-    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+    public void GoToMainMenu()
     {
-        _screenController.HideScreen(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public IEnumerator FinishAndRestartGame()

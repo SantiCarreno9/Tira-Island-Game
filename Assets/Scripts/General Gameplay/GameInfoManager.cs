@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameInfoManager : MonoBehaviour
 {
     public static GameInfoManager Instance;
-    private Vector3 _playerPosition = Vector3.zero;
+
+    private GameManager _gameManager = default;
+    private const int INITIAL_LIVES_COUNT = 3;
+
+    private bool _hasSavedPlayerInfo = false;
+    private Vector2 _playerPosition = Vector2.zero;
     private int _lives = 3;
     private Ammo _currentAmmo;
     private int _currentAmmoCount = 0;
@@ -21,17 +27,52 @@ public class GameInfoManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        FindObjectOfType<GameManager>().OnPlayerKilled += SaveUserInfo;
+        SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
     }
 
-    private void SaveUserInfo()
+    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
     {
-        _lives = 0;
-        FindObjectOfType<GameManager>().OnPlayerKilled -= SaveUserInfo;
-        FindObjectOfType<GameManager>().OnPlayerKilled -= SaveUserInfo;
-        FindObjectOfType<GameManager>().OnPlayerKilled -= SaveUserInfo;
-        FindObjectOfType<GameManager>().OnPlayerKilled -= SaveUserInfo;
+        OnEnable();
+    }
+
+    private void OnEnable()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+        if (_gameManager != null)
+        {
+            _gameManager.OnPlayerKilled += UpdateLivesCount;
+            _gameManager.OnCheckpointReached += SaveUserInfo;
+            if (_hasSavedPlayerInfo)
+                _gameManager.TakeCharacterTo(_playerPosition);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_gameManager != null)
+        {
+            _gameManager.OnPlayerKilled -= UpdateLivesCount;
+            _gameManager.OnCheckpointReached -= SaveUserInfo;
+        }
+    }
+
+    private void SaveUserInfo(Vector2 position)
+    {
+        _playerPosition = position;
+        _hasSavedPlayerInfo = true;
+    }
+
+    private void UpdateLivesCount()
+    {
+        _lives--;
+
+        if (_gameManager != null)
+        {
+            _gameManager.OnPlayerKilled -= UpdateLivesCount;
+            if (_lives > 0)
+                _gameManager.RestartLevel();
+        }
     }
 }
