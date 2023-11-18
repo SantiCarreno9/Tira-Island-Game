@@ -5,7 +5,8 @@ public enum GameScreen
 {
     Start,
     GameOver,
-    Death
+    Death,
+    Win
 }
 
 public class ScreenController : MonoBehaviour
@@ -19,12 +20,15 @@ public class ScreenController : MonoBehaviour
     private GameObject _gameOverScreen = default;
     [SerializeField]
     private GameObject _deathScreen = default;
+    [SerializeField]
+    private GameObject _winScreen = default;
 
     public void ShowScreen(GameScreen screen, float fadeInDuration = 0)
     {
         _startScreen.SetActive(screen == GameScreen.GameOver);
         _gameOverScreen.SetActive(screen == GameScreen.GameOver);
         _deathScreen.SetActive(screen == GameScreen.Death);
+        _winScreen.SetActive(screen == GameScreen.Win);
 
         _screenCanvasGroup.gameObject.SetActive(true);
         _screenCanvasGroup.DOFade(1, fadeInDuration);

@@ -24,11 +24,11 @@ public class GameManager : MonoBehaviour
         _screenController.ShowScreen(GameScreen.Start);
         _screenController.HideScreen(3);
         CheckMode();
-    }
+    }    
 
     private void CheckMode()
     {
-        _enemiesContainer.SetActive(!SettingsManager.GodModeOn);
+        _enemiesContainer.SetActive(!SettingsManager.GodModeOn);        
     }
 
     public void TakeCharacterTo(Vector2 position)
@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviour
         OnPlayerKilled?.Invoke();
     }
 
+    #region YOU ARE DEAD
+
     public void RestartLevelWithAnimation()
     {
         StartCoroutine(ShowDeadScreenAndRestartGame());
@@ -89,6 +91,10 @@ public class GameManager : MonoBehaviour
         RestartGame();
     }
 
+    #endregion
+
+    #region GAME OVER
+
     public void EndGameWithAnimation()
     {
         StartCoroutine(ShowGameOverScreenAndEndGame());
@@ -106,4 +112,24 @@ public class GameManager : MonoBehaviour
     {
         _gameMenuHandler.ChangeToMainMenu();
     }
+
+    #endregion
+
+    #region WIN
+
+    public void WinGameWithAnimation()
+    {
+        StartCoroutine(ShowWinScreenAndEndGame());
+    }
+
+    public IEnumerator ShowWinScreenAndEndGame()
+    {
+        yield return new WaitForSeconds(2);
+        _screenController.ShowScreen(GameScreen.Win, 1);
+        yield return new WaitForSeconds(5);
+        EndGame();
+    }
+
+    #endregion
+
 }

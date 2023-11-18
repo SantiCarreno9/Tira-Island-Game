@@ -10,6 +10,15 @@ public class EnemySounds : MonoBehaviour
     public AudioClip landSound;
     public AudioClip shootSound;
 
+    public float maxVolumeDistance = 10f;
+    public float minVolumeDistance = 2f;
+
+    void Update()
+    {
+        float distanceX = Mathf.Abs(transform.position.x - Camera.main.transform.position.x);
+        float volume = Mathf.Clamp01(1f - (distanceX - minVolumeDistance) / (maxVolumeDistance - minVolumeDistance));
+        audioSource.volume = volume;
+    }
     void playStep()
     {
         audioSource.clip = stepSound;

@@ -20,6 +20,12 @@ public class UIGameMenuHandler : MonoBehaviour
     [SerializeField]
     private TMP_Text _livesCountText = default;
 
+    [Space]
+    [SerializeField]
+    private MusicManager _musicManager = default;
+    [SerializeField]
+    private SoundEffectsManager _soundEffectsManager = default;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +36,9 @@ public class UIGameMenuHandler : MonoBehaviour
     }
 
     private void CheckSettings()
-    {
-        _musicToggle.SetIsOnWithoutNotify(SettingsManager.MusicOn);
-        _soundEffectsToggle.SetIsOnWithoutNotify(SettingsManager.SoundEffectsOn);
+    {        
+        _musicToggle.isOn=SettingsManager.MusicOn;
+        _soundEffectsToggle.isOn=SettingsManager.SoundEffectsOn;        
     }
 
     private void CheckLives()
@@ -64,11 +70,15 @@ public class UIGameMenuHandler : MonoBehaviour
     public void ToggleMusic(bool value)
     {
         SettingsManager.Instance.ToggleMusic(value);
+        if (value) _musicManager.Unmute();
+        else _musicManager.Mute();
     }
 
     public void ToggleSoundEffects(bool value)
     {
         SettingsManager.Instance.ToggleSoundEffects(value);
+        if (value) _soundEffectsManager.Unmute();
+        else _soundEffectsManager.Mute();
     }
 
 }

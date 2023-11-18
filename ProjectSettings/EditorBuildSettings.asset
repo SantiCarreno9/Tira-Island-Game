@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: aaa91c5255a780c4b8d8a95ac0f8cbd7
   - enabled: 1
-    path: Assets/TiraScenes/Level 1 J.unity
-    guid: 03dc613203d4350449d5227dc8418f69
+    path: Assets/Scenes/Level 1 - Final.unity
+    guid: 9fdce35a88f085540b96052b177aeae6
   m_configObjects: {}

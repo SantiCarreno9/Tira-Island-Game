@@ -37,6 +37,7 @@ public class CharacterController : MonoBehaviour
     private int _speedAnimParameter = Animator.StringToHash("Speed");
     private int _jumpAnimParameter = Animator.StringToHash("Jump");
     private int _isGroundedAnimParameter = Animator.StringToHash("IsGrounded");
+    private int _isAttackingAnimParameter = Animator.StringToHash("IsAttacking");
     private int _attackAnimParameter = Animator.StringToHash("Shoot");
     private int _takeHitAnimParameter = Animator.StringToHash("TakeHit");
     private int _deathAnimParameter = Animator.StringToHash("Die");
@@ -153,6 +154,7 @@ public class CharacterController : MonoBehaviour
 
         if (_jump) _animator.SetTrigger(_jumpAnimParameter);
         if (_attack) _animator.SetTrigger(_attackAnimParameter);
+        _animator.SetBool(_isAttackingAnimParameter,_attack);
         _animator.SetBool(_isGroundedAnimParameter, IsGrounded());
     }
 

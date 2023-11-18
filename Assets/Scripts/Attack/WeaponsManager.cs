@@ -29,10 +29,6 @@ public class WeaponsManager : MonoBehaviour
     public UnityEvent<Ammo> OnAmmoChanged = default;
     public UnityEvent<int> OnAmmoCountChanged = default;
 
-    private List<Projectile> _shootgunPool = new List<Projectile>();
-    private List<Projectile> _rocketsPool = new List<Projectile>();
-    private List<Projectile> _grenadePool = new List<Projectile>();
-
     private int _amount = 0;
 
     private void Start()
