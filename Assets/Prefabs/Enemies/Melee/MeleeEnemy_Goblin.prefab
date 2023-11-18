@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 183754713144972875, guid: c96a41b10bb80db4fa2180074a956938, type: 3}
+      propertyPath: _attackRate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 183754713144972875, guid: c96a41b10bb80db4fa2180074a956938, type: 3}
       propertyPath: _deadAnimationClip
       value: 
       objectReference: {fileID: 7400000, guid: 01a7df17d84adbb4c99cc2c88b98d5cf, type: 2}

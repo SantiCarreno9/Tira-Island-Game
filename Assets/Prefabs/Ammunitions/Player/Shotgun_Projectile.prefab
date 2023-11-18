@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1331002037994863133, guid: a68f82ee21c6b4344a7e531d530e28e6, type: 3}
+      propertyPath: _damagePoints
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2733919729277655745, guid: a68f82ee21c6b4344a7e531d530e28e6, type: 3}
       propertyPath: _speed
       value: 10

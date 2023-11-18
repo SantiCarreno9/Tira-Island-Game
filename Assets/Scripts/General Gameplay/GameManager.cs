@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator ShowWinScreenAndEndGame()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         _screenController.ShowScreen(GameScreen.Win, 1);
         yield return new WaitForSeconds(5);
         EndGame();

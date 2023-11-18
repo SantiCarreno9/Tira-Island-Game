@@ -587,4 +587,4 @@ MonoBehaviour:
   stepSound: {fileID: 8300000, guid: 57a15621565e1b343a73cafff886182d, type: 3}
   jumpSound: {fileID: 8300000, guid: ee5a73c923af76848a7afb544f8b06d2, type: 3}
   landSound: {fileID: 8300000, guid: f6b21da7d257f3345badd7de2e13fe29, type: 3}
-  shootSound: {fileID: 8300000, guid: e09e3d3a34003a94d9a874733fad3780, type: 3}
+  shootSound: {fileID: 8300000, guid: 37ce5f85f6512bb47ac8128fa41a1dcb, type: 3}
