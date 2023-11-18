@@ -16,10 +16,7 @@ public class MuteOtherAudioSources : MonoBehaviour
 
         foreach (AudioSource audioSource in allAudioSources)
         {
-            if (audioSource != targetAudioSource)
-            {
-                audioSource.mute = true;
-            }
+            audioSource.mute = true;
         }
     }
 }
