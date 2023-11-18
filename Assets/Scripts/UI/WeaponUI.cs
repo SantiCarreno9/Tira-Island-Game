@@ -6,8 +6,6 @@ public class WeaponUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]
-    private Image _ammoImage = default;
-    [SerializeField]
     private TMP_Text _ammoCount = default;
     [SerializeField]
     private GameObject _infinitySymbol = default;
@@ -15,35 +13,24 @@ public class WeaponUI : MonoBehaviour
     [Space]
     [Header("Sprites")]
     [SerializeField]
-    private Sprite _shotgunAmmoSprite = default;
+    private GameObject _shotgunBulletImage = default;
     [SerializeField]
-    private Sprite _rocketAmmoSprite = default;
+    private GameObject _rocketImage = default;
     [SerializeField]
-    private Sprite _grenadeSprite = default;
+    private GameObject _grenadeImage = default;
 
 
     public void ChangeAmmoSprite(Ammo ammo)
     {
-        switch (ammo)
-        {
-            case Ammo.Shotgun:
-                _ammoImage.sprite = _shotgunAmmoSprite;
-                break;
-            case Ammo.Rocket:
-                _ammoImage.sprite = _rocketAmmoSprite;
-                break;
-            case Ammo.Grenade:
-                _ammoImage.sprite = _grenadeSprite;
-                break;
-            default:
-                break;
-        }
+        _shotgunBulletImage.SetActive(ammo == Ammo.Shotgun);
+        _rocketImage.SetActive(ammo == Ammo.Rocket);
+        _grenadeImage.SetActive(ammo == Ammo.Grenade);
     }
 
     public void UpdateAmmoCount(int count)
     {
         _infinitySymbol.SetActive(count < 0);
-        _ammoCount.text = count < 0 ? "" : "x" + count.ToString();
+        _ammoCount.text = count < 0 ? "" : count.ToString();
     }
 
 }

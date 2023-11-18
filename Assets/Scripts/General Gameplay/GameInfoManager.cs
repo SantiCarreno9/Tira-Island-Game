@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,13 +6,11 @@ public class GameInfoManager : MonoBehaviour
     public static GameInfoManager Instance;
 
     private GameManager _gameManager = default;
-    private const int INITIAL_LIVES_COUNT = 3;
 
     private bool _hasSavedPlayerInfo = false;
     private Vector2 _playerPosition = Vector2.zero;
     private int _lives = 3;
-    private Ammo _currentAmmo;
-    private int _currentAmmoCount = 0;
+    public int Lives => _lives;
 
     private void Awake()
     {
@@ -72,7 +68,8 @@ public class GameInfoManager : MonoBehaviour
         {
             _gameManager.OnPlayerKilled -= UpdateLivesCount;
             if (_lives > 0)
-                _gameManager.RestartLevel();
+                _gameManager.RestartLevelWithAnimation();
+            else _gameManager.EndGameWithAnimation();
         }
     }
 }

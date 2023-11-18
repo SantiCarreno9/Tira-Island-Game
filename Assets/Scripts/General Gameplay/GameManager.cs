@@ -6,19 +6,29 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
+    private UIGameMenuHandler _gameMenuHandler = default;
+    [SerializeField]
     private ScreenController _screenController = default;
     [SerializeField]
     private CharacterController _characterController = default;
+    [SerializeField]
+    private GameObject _enemiesContainer = default;
 
     public Action OnPlayerKilled = default;
     public Action<Vector2> OnCheckpointReached = default;
 
-    private bool _isPlayerStopped = false;
+    private bool _isGamePaused = false;
 
-    private void OnEnable()
+    private void Start()
     {
         _screenController.ShowScreen(GameScreen.Start);
         _screenController.HideScreen(3);
+        CheckMode();
+    }
+
+    private void CheckMode()
+    {
+        _enemiesContainer.SetActive(!SettingsManager.GodModeOn);
     }
 
     public void TakeCharacterTo(Vector2 position)
@@ -26,8 +36,28 @@ public class GameManager : MonoBehaviour
         _characterController.transform.position = position;
     }
 
-    private void OnDisable()
-    {     
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!_isGamePaused) PauseGame();
+            else ResumeGame();
+        }
+    }
+
+    public void ResumeGame()
+    {
+        _isGamePaused = false;
+        Time.timeScale = 1;
+        _gameMenuHandler.ClosePauseMenuUI();
+        _gameMenuHandler.ClosePauseSettingsMenuUI();
+    }
+
+    public void PauseGame()
+    {
+        _isGamePaused = true;
+        Time.timeScale = 0;
+        _gameMenuHandler.DisplayPauseMenuUI();
     }
 
     public void SaveUserInfo()
@@ -41,9 +71,9 @@ public class GameManager : MonoBehaviour
         OnPlayerKilled?.Invoke();
     }
 
-    public void RestartLevel()
+    public void RestartLevelWithAnimation()
     {
-        StartCoroutine(FinishAndRestartGame());
+        StartCoroutine(ShowDeadScreenAndRestartGame());
     }
 
     public void RestartGame()
@@ -51,17 +81,29 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void GoToMainMenu()
+    public IEnumerator ShowDeadScreenAndRestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public IEnumerator FinishAndRestartGame()
-    {
-        OnPlayerKilled?.Invoke();
         yield return new WaitForSeconds(1);
         _screenController.ShowScreen(GameScreen.Death, 1);
         yield return new WaitForSeconds(3);
         RestartGame();
+    }
+
+    public void EndGameWithAnimation()
+    {
+        StartCoroutine(ShowGameOverScreenAndEndGame());
+    }
+
+    public IEnumerator ShowGameOverScreenAndEndGame()
+    {
+        yield return new WaitForSeconds(1);
+        _screenController.ShowScreen(GameScreen.GameOver, 1);
+        yield return new WaitForSeconds(3);
+        EndGame();
+    }
+
+    public void EndGame()
+    {
+        _gameMenuHandler.ChangeToMainMenu();
     }
 }

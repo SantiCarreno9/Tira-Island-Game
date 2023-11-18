@@ -4,7 +4,7 @@ using DG.Tweening;
 public enum GameScreen
 {
     Start,
-    Finish,
+    GameOver,
     Death
 }
 
@@ -14,16 +14,16 @@ public class ScreenController : MonoBehaviour
     private CanvasGroup _screenCanvasGroup = default;
 
     [SerializeField]
-    private GameObject _startLevelScreen = default;
+    private GameObject _startScreen = default;
     [SerializeField]
-    private GameObject _finishLevelScreen = default;
+    private GameObject _gameOverScreen = default;
     [SerializeField]
     private GameObject _deathScreen = default;
 
     public void ShowScreen(GameScreen screen, float fadeInDuration = 0)
     {
-        _startLevelScreen.SetActive(screen == GameScreen.Start);
-        _finishLevelScreen.SetActive(screen == GameScreen.Finish);
+        _startScreen.SetActive(screen == GameScreen.GameOver);
+        _gameOverScreen.SetActive(screen == GameScreen.GameOver);
         _deathScreen.SetActive(screen == GameScreen.Death);
 
         _screenCanvasGroup.gameObject.SetActive(true);
@@ -36,14 +36,5 @@ public class ScreenController : MonoBehaviour
         {
             _screenCanvasGroup.gameObject.SetActive(false);
         };
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-            ShowScreen(GameScreen.Start);
-
-        if (Input.GetKeyDown(KeyCode.T))
-            HideScreen();
     }
 }

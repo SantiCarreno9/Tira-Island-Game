@@ -1,107 +1,93 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIMenuHandler : MonoBehaviour
 {
-    public GameObject MainMenuUI;
-    public GameObject SettingsUI;
-    public GameObject CreditsUI;
-    public Image musicButton;
-    public Sprite musicOn;
-    public Sprite musicOff;
-    public Image efectsButton;
-    public Sprite efectsOn;
-    public Sprite efectsOff;
-    public Image GODModeButton;
-    public Sprite ModeOn;
-    public Sprite ModeOff;
-    public Image NormalModeButton;
-    private bool isMusicOn;
-    private bool isEfectsOn;
-    private bool isNormalModeOn;
-    // Start is called before the first frame update
+    [SerializeField]
+    private GameObject _mainMenuUI;
+    [SerializeField]
+    private GameObject _settingsUI;
+    [SerializeField]
+    private GameObject _creditsUI;
+
+    [Space]
+    [SerializeField]
+    private Toggle _musicToggle;
+    [SerializeField]
+    private Toggle _soundEffectsToggle;
+    [SerializeField]
+    private Toggle _godModeToggle;
+
+
     void Start()
     {
-        MainMenuUI.SetActive(true);
-        SettingsUI.SetActive(false);
-        CreditsUI.SetActive(false);
-        isMusicOn = true;
-        isEfectsOn = true;
-        NormalModeButton.sprite = ModeOn;
-        isNormalModeOn = true;
-}
+        DisplayMainMenuUI();
+        CloseCreditsUI();
+        CloseMainSettingsUI();
+        CheckSettings();
+    }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckSettings()
     {
-        
+        _musicToggle.SetIsOnWithoutNotify(SettingsManager.MusicOn);
+        _soundEffectsToggle.SetIsOnWithoutNotify(SettingsManager.SoundEffectsOn);
+        _godModeToggle.SetIsOnWithoutNotify(SettingsManager.GodModeOn);
     }
-    public void NormalModeHandler()
-    {
-        if (isNormalModeOn)
-        {
-            NormalModeButton.sprite = ModeOff;
-            GODModeButton.sprite = ModeOn;
-            isNormalModeOn = false;
-        }
-        else
-        {
-            NormalModeButton.sprite = ModeOn;
-            GODModeButton.sprite = ModeOff;
-            isNormalModeOn = true;
-        }
-    }
-    public void MusicButtonHandler()
-    {
-        if (isMusicOn)
-        {
-            musicButton.sprite = musicOff;
-            isMusicOn = false;
-        }
-        else
-        {
-            musicButton.sprite = musicOn;
-            isMusicOn = true;
-        }
-    }
-    public void EfectsButtonHandler()
-    {
-        if (isEfectsOn)
-        {
-            efectsButton.sprite = efectsOff;
-            isEfectsOn = false;
-        }
-        else
-        {
-            efectsButton.sprite = efectsOn;
-            isEfectsOn = true;
-        }
-    }
+
+    #region UI SWITCHING
     public void DisplayMainMenuUI()
     {
-        MainMenuUI.SetActive(true);
+        _mainMenuUI.SetActive(true);
     }
     public void CloseMainMenuUI()
     {
-        MainMenuUI.SetActive(false);
+        _mainMenuUI.SetActive(false);
     }
     public void DisplayMainSettingsUI()
     {
-        SettingsUI.SetActive(true);
+        _settingsUI.SetActive(true);
     }
     public void CloseMainSettingsUI()
     {
-        SettingsUI.SetActive(false);
+        _settingsUI.SetActive(false);
     }
     public void DisplayCreditsUI()
     {
-        CreditsUI.SetActive(true);
+        _creditsUI.SetActive(true);
     }
     public void CloseCreditsUI()
     {
-        CreditsUI.SetActive(false);
+        _creditsUI.SetActive(false);
     }
+    #endregion
+
+    #region FUNCTIONS
+
+    public void NewGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ToggleMusic(bool value)
+    {
+        SettingsManager.Instance.ToggleMusic(value);
+    }
+
+    public void ToggleSoundEffects(bool value)
+    {
+        SettingsManager.Instance.ToggleSoundEffects(value);
+    }
+
+    public void ToggleGodMode(bool value)
+    {
+        SettingsManager.Instance.ToggleGodMode(value);
+    }
+
+    #endregion
 }

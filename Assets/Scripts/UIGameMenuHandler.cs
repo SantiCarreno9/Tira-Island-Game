@@ -1,86 +1,74 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIGameMenuHandler : MonoBehaviour
 {
-    public GameObject PauseMenuUI;
-    public GameObject PauseSettingsMenuUI;
-    public string mainMenu = "Main Menu";
-    public string mainSettingsMenu = "Main Settings Menu";
-    public Image musicButton;
-    public Sprite musicOn;
-    public Sprite musicOff;
-    public Image efectsButton;
-    public Sprite efectsOn;
-    public Sprite efectsOff;
-    private bool isMusicOn;
-    private bool isEfectsOn;
+    [SerializeField]
+    private GameObject _pauseMenuUI;
+    [SerializeField]
+    public GameObject _pauseSettingsMenuUI;
+
+    [Space]
+    [SerializeField]
+    private Toggle _musicToggle;
+    [SerializeField]
+    private Toggle _soundEffectsToggle;
+
+    [Space]
+    [SerializeField]
+    private TMP_Text _livesCountText = default;
+
     // Start is called before the first frame update
     void Start()
     {
-        PauseMenuUI.SetActive(false);
-        PauseSettingsMenuUI.SetActive(false);
-        isMusicOn = true;
-        isEfectsOn = true;
+        ClosePauseMenuUI();
+        ClosePauseSettingsMenuUI();
+        CheckSettings();
+        CheckLives();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckSettings()
     {
-        
+        _musicToggle.SetIsOnWithoutNotify(SettingsManager.MusicOn);
+        _soundEffectsToggle.SetIsOnWithoutNotify(SettingsManager.SoundEffectsOn);
     }
-    public void MusicButtonHandler()
+
+    private void CheckLives()
     {
-        if (isMusicOn)
-        {
-            musicButton.sprite = musicOff;
-            isMusicOn = false;
-        }
-        else
-        {
-            musicButton.sprite = musicOn;
-            isMusicOn = true;
-        }
+        _livesCountText.text = GameInfoManager.Instance.Lives.ToString();
     }
-    public void EfectsButtonHandler()
-    {
-        if (isEfectsOn)
-        {
-            efectsButton.sprite = efectsOff;
-            isEfectsOn = false;
-        }
-        else
-        {
-            efectsButton.sprite = efectsOn;
-            isEfectsOn = true;
-        }
-    }
+
     public void DisplayPauseMenuUI()
     {
-        PauseMenuUI.SetActive(true);
+        _pauseMenuUI.SetActive(true);
     }
-    public void ClosePauseMenuUi()
+    public void ClosePauseMenuUI()
     {
-        PauseMenuUI.SetActive(false);
+        _pauseMenuUI.SetActive(false);
     }
     public void DisplayPauseSettingsMenuUI()
     {
-        PauseSettingsMenuUI.SetActive(true);
+        _pauseSettingsMenuUI.SetActive(true);
     }
     public void ClosePauseSettingsMenuUI()
     {
-        PauseSettingsMenuUI.SetActive(false);
+        _pauseSettingsMenuUI.SetActive(false);
     }
     public void ChangeToMainMenu()
     {
-        SceneManager.LoadScene(mainMenu);
+        SceneManager.LoadScene(0);
     }
-    public void ChangeToMainSettingsMenu()
+
+    public void ToggleMusic(bool value)
     {
-        SceneManager.LoadScene(mainSettingsMenu);
+        SettingsManager.Instance.ToggleMusic(value);
+    }
+
+    public void ToggleSoundEffects(bool value)
+    {
+        SettingsManager.Instance.ToggleSoundEffects(value);
     }
 
 }
