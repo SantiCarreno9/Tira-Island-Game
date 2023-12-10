@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     private int _attackAnimParameter = Animator.StringToHash("Attack");
     private int _takeHitAnimParameter = Animator.StringToHash("TakeHit");
     private int _killAnimParameter = Animator.StringToHash("Kill");
+    private int _isDeadAnimParameter = Animator.StringToHash("IsDead");
 
     //Hit Logic
     protected bool hitTaken = false;
@@ -107,6 +108,7 @@ public class Enemy : MonoBehaviour
         StopAttacking();
         _collider.enabled = false;
         animator.SetTrigger(_killAnimParameter);
+        animator.SetBool(_isDeadAnimParameter, true);
         isDead = true;
     }
 
